@@ -1,64 +1,120 @@
-* { margin:0; padding:0; box-sizing:border-box; }
-body {
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
-    color: #fff;
-    padding: 20px;
-    min-height: 100vh;
-}
-header { text-align:center; margin-bottom:20px; }
-h1 { font-size:2.5em; text-shadow:0 2px 10px rgba(0,0,0,0.5); }
-p { color:#a0f7ff; font-size:1.1em; }
+const API_BASE = "https://emote-psi.vercel.app/api/join";
+const grid = document.getElementById('grid');
+const notif = document.getElementById('notif');
 
-.config {
-    display:flex; gap:10px; justify-content:center; flex-wrap:wrap;
-    margin:20px auto; max-width:600px;
-}
-.config input {
-    padding:10px; border-radius:8px; border:none;
-    background:rgba(255,255,255,0.1); color:white;
-    width:120px; text-align:center; font-size:1em;
-}
-.config input::placeholder { color:#ccc; }
+// Emote লিস্ট (ফাইল ছাড়া, হার্ডকোড)
+const emotes = [
+  {"id":909051014,"name":"puffy ride"},
+  {"id":909050009,"name":"(circle)"},
+  {"id":909051013,"name":"petals"},
+  {"id":909051012,"name":"bow"},
+  {"id":909051010,"name":"moterbike"},
+  {"id":909051004,"name":"shower"},
+  {"id":909051002,"name":"dream"},
+  {"id":909051001,"name":"angelic"},
+  {"id":909048015,"name":"paint"},
+  {"id":909044015,"name":"sword"},
+  {"id":909041008,"name":"flar"},
+  {"id":909049003,"name":"(owl)"},
+  {"id":909050008,"name":"thor"},
+  {"id":909049001,"name":"(bigdill)"},
+  {"id":909041013,"name":"(cs gm)"},
+  {"id":909050014,"name":"(map read)"},
+  {"id":909050015,"name":"(tomato)"},
+  {"id":909050002,"name":"(ninja summon)"},
+  {"id":909042007,"name":"(100 lvl)"},
+  {"id":909050028,"name":"(auraboat)"},
+  {"id":909049012,"name":"(flying guns)"},
+  {"id":909000045,"name":"(I heart you)"},
+  {"id":909000034,"name":"(pirate flag)"},
+  {"id":909000012,"name":"(push up)"},
+  {"id":909000020,"name":"(devil move)"},
+  {"id":909000008,"name":"(shoot dance)"},
+  {"id":909000006,"name":"(chicken)"},
+  {"id":909000014,"name":"(THRONE)"},
+  {"id":909000010,"name":"(rose)"},
+  {"id":909038004,"name":"(valentine heart)"},
+  {"id":909034001,"name":"(rampage book)"},
+  {"id":909049017,"name":"(guild flag)"},
+  {"id":909040004,"name":"(fish)"},
+  {"id":909041003,"name":"(inosuke)"},
+  {"id":909041012,"name":"(br grandmaster)"},
+  {"id":909049010,"name":"(evo p90)"},
+  {"id":909051003,"name":"(evo m60) new"},
+  {"id":909033002,"name":"(evo mp5)"},
+  {"id":909041005,"name":"(evo groza)"},
+  {"id":909038010,"name":"(thompson evo)"},
+  {"id":909039011,"name":"(evo M10 red)"},
+  {"id":909040010,"name":"(evo mp40 blue)"},
+  {"id":909000081,"name":"(evo m10 green)"},
+  {"id":909000085,"name":"(evo xm8)"},
+  {"id":909000063,"name":"(evo ak)"},
+  {"id":909000075,"name":"(evo mp40)"},
+  {"id":909033001,"name":"(evo m4A1)"},
+  {"id":909000090,"name":"(evo famas)"},
+  {"id":909000068,"name":"(evo scar)"},
+  {"id":909000098,"name":"(evo ump)"},
+  {"id":909035007,"name":"(evo m18)"},
+  {"id":909037011,"name":"(evo fist)"},
+  {"id":909038012,"name":"(evo g18)"},
+  {"id":909035012,"name":"(evo AN94)"},
+  {"id":909042008,"name":"(evo Woodpecker)"}
+];
 
-#grid {
-    display:grid;
-    grid-template-columns:repeat(auto-fill, minmax(140px,1fr));
-    gap:15px;
-    max-width:1200px;
-    margin:0 auto;
-}
-.item {
-    background:rgba(255,255,255,0.12);
-    border-radius:12px;
-    padding:15px 10px;
-    text-align:center;
-    cursor:pointer;
-    transition:0.3s;
-    border:1px solid rgba(255,255,255,0.2);
-    backdrop-filter:blur(8px);
-}
-.item:hover {
-    transform:translateY(-5px);
-    background:rgba(255,255,255,0.22);
-    box-shadow:0 10px 20px rgba(0,0,0,0.3);
-}
-.item .id {
-    font-size:0.9em;
-    font-weight:bold;
-    color:#4fc3f7;
-}
-.item .name {
-    font-size:0.75em;
-    color:#ccc;
-    margin-top:4px;
+// ইনপুট ফিল্ড
+const teamCodeInput = document.getElementById('teamCode');
+const uid1 = document.getElementById('uid1');
+const uid2 = document.getElementById('uid2');
+const uid3 = document.getElementById('uid3');
+
+// API-তে সেন্ড
+async function sendEmote(emoteId) {
+    const tc = teamCodeInput.value.trim() || "demo";
+    const u1 = uid1.value.trim() || "1";
+    const u2 = uid2.value.trim() || "2";
+    const u3 = uid3.value.trim() || "3";
+
+    const url = `${API_BASE}?tc=${tc}&emote_id=${emoteId}&uid1=${u1}&uid2=${u2}&uid3=${u3}`;
+
+    try {
+        const response = await fetch(url);
+        if (response.ok) {
+            showNotif(`সেন্ড সফল: ${emoteId}`);
+        } else {
+            showNotif(`ফেল (${response.status}): ${emoteId}`);
+        }
+    } catch (err) {
+        showNotif(`এরর: ${emoteId}`);
+    }
 }
 
-#notif {
-    position:fixed;
-    bottom:20px; right:20px;
-    background:#4caf50; color:white;
-    padding:12px 24px; border-radius:50px;
-    font-weight:bold; opacity:0;
-    transition:0.4s; box-shadow:0 4px 15px rgba(0,0,0,0.3);
+// গ্রিড তৈরি
+function refreshGrid() {
+    grid.innerHTML = '';
+    emotes.forEach(emote => {
+        const div = document.createElement('div');
+        div.className = 'item';
+
+        div.innerHTML = `
+            <div class="id">${emote.id}</div>
+            <div class="name">${emote.name}</div>
+        `;
+
+        // ক্লিক = সেন্ড
+        div.onclick = () => {
+            sendEmote(emote.id);
+        };
+
+        grid.appendChild(div);
+    });
 }
+
+// নোটিফিকেশন
+function showNotif(msg) {
+    notif.textContent = msg;
+    notif.style.opacity = '1';
+    setTimeout(() => notif.style.opacity = '0', 2000);
+}
+
+// শুরুতে গ্রিড লোড
+refreshGrid();
