@@ -9,88 +9,40 @@
 <body>
   <div class="admin-container">
     <h1>অ্যাডমিন প্যানেল</h1>
-
-    <div class="admin-section">
-      <h2>GitHub টোকেন দিন (একবার)</h2>
-      <input type="password" id="githubToken" placeholder="ghp_..." />
-      <button onclick="saveToken()">টোকেন সেভ করুন</button>
-    </div>
+    <p>নতুন পাসওয়ার্ড দিন। এটা আপনার ব্রাউজারে সেভ হবে।</p>
 
     <div class="admin-section">
       <h2>পাসওয়ার্ড চেঞ্জ</h2>
       <input type="text" id="newPass" placeholder="নতুন পাসওয়ার্ড" />
-      <button onclick="changePassword()">সেভ করুন</button>
+      <button onclick="savePassword()">সেভ করুন</button>
     </div>
 
-    <div id="status" style="color:#4caf50;margin-top:10px;"></div>
+    <div id="status" style="color:#4caf50; margin-top:10px; font-weight:bold;"></div>
   </div>
 
   <script>
-    const REPO = "alamin11a/janina-emote-test";
-    const FILE_PATH = "index.html";
-    let TOKEN = localStorage.getItem("github_token") || "";
+    // বর্তমান পাসওয়ার্ড (localStorage থেকে)
+    let currentPass = localStorage.getItem("emote_password") || "1234";
 
-    // টোকেন সেভ
-    function saveToken() {
-      TOKEN = document.getElementById('githubToken').value.trim();
-      if (!TOKEN) return alert("টোকেন দিন!");
-      localStorage.setItem("github_token", TOKEN);
-      alert("টোকেন সেভ হয়েছে! এখন পাসওয়ার্ড চেঞ্জ করুন।");
+    // সেভ করুন
+    function savePassword() {
+      const newPass = document.getElementById('newPass').value.trim();
+      if (!newPass) return alert("পাসওয়ার্ড দিন!");
+
+      // ব্রাউজারে সেভ
+      localStorage.setItem("emote_password", newPass);
+
+      document.getElementById('status').textContent = 
+        `পাসওয়ার্ড সফলভাবে চেঞ্জ হয়েছে: "${newPass}"\nএই ব্রাউজারে এখন এই পাসওয়ার্ড কাজ করবে।`;
+
+      document.getElementById('newPass').value = '';
     }
 
-    // ফাইল কন্টেন্ট আপডেট
-    async function updateFile(newPassword) {
-      const url = `https://api.github.com/repos/${REPO}/contents/${FILE_PATH}`;
-      
-      // বর্তমান ফাইল
-      const res = await fetch(url, {
-        headers: { "Authorization": `token ${TOKEN}`, "Accept": "application/vnd.github.v3+json" }
-      });
-      const data = await res.json();
-      let content = atob(data.content);
-
-      // পাসওয়ার্ড চেঞ্জ
-      content = content.replace(
-        /const PASSWORD = "[^"]*";/,
-        `const PASSWORD = "${newPassword}";`
-      );
-
-      // আপডেট
-      await fetch(url, {
-        method: "PUT",
-        headers: {
-          "Authorization": `token ${TOKEN}`,
-          "Accept": "application/vnd.github.v3+json"
-        },
-        body: JSON.stringify({
-          message: `Password changed to ${newPassword}`,
-          content: btoa(content),
-          sha: data.sha,
-          branch: "main"
-        })
-      });
-
-      document.getElementById('status').textContent = "পাসওয়ার্ড সফলভাবে চেঞ্জ হয়েছে! Vercel ১ মিনিটে আপডেট হবে।";
-    }
-
-    // পাসওয়ার্ড চেঞ্জ
-    async function changePassword() {
-      if (!TOKEN) return alert("প্রথমে GitHub টোকেন দিন!");
-      const pass = document.getElementById('newPass').value.trim();
-      if (!pass) return alert("পাসওয়ার্ড দিন!");
-      
-      document.getElementById('status').textContent = "সেভ হচ্ছে...";
-      try {
-        await updateFile(pass);
-      } catch (err) {
-        document.getElementById('status').textContent = "এরর: " + err.message;
-      }
-    }
-
-    // লোডে টোকেন চেক
-    if (TOKEN) {
-      document.getElementById('githubToken').value = "••••••••••••••••••••••••";
-    }
+    // লোডে দেখান
+    window.onload = () => {
+      document.getElementById('status').textContent = 
+        `বর্তমান পাসওয়ার্ড: "${currentPass}"`;
+    };
   </script>
 </body>
 </html>
