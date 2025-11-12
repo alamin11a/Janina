@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- লগইন -->
+  <!-- লগইন স্ক্রিন -->
   <div id="loginScreen">
     <div class="login-box">
       <h2>পাসওয়ার্ড দিন</h2>
@@ -17,7 +17,7 @@
     </div>
   </div>
 
-  <!-- মেইন -->
+  <!-- মেইন কন্টেন্ট -->
   <div id="mainContent" style="display:none;">
     <header>
       <h1>XLAHR Emote Bot</h1>
@@ -36,10 +36,10 @@
   </div>
 
   <script>
-    // নতুন (এটা রাখুন)
-const PASSWORD = localStorage.getItem("emote_password") || "1234";
+    // পাসওয়ার্ড (localStorage থেকে – ডিফল্ট 1234)
+    let PASSWORD = localStorage.getItem("emote_password") || "1234";
 
-    // লগইন ফাংশন
+    // লগইন চেক
     function checkLogin() {
       const input = document.getElementById('passInput').value;
       if (input === PASSWORD) {
