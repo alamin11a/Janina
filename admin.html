@@ -3,40 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Panel</title>
+  <title>Admin - Change Password</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 </head>
 <body>
   <div class="admin-container">
     <h1>অ্যাডমিন প্যানেল</h1>
-    <p>নতুন পাসওয়ার্ড দিন। এটা এই ব্রাউজারে সেভ হবে।</p>
-
-    <div class="admin-section">
-      <h2>বর্তমান পাসওয়ার্ড: <span id="currentPass">1234</span></h2>
-      <input type="text" id="newPass" placeholder="নতুন পাসওয়ার্ড" />
-      <button onclick="savePassword()">সেভ করুন</button>
-    </div>
-
-    <div id="status" style="color:#4caf50; margin-top:10px; font-weight:bold;"></div>
+    <input type="text" id="newPass" placeholder="নতুন পাসওয়ার্ড" />
+    <button onclick="savePassword()">সেভ করুন</button>
+    <div id="status" style="color:#4caf50;margin-top:10px;"></div>
   </div>
 
   <script>
-    // বর্তমান পাসওয়ার্ড লোড
-    let currentPass = localStorage.getItem("emote_password") || "1234";
-    document.getElementById('currentPass').textContent = currentPass;
+    const firebaseConfig = { databaseURL: "https://emote-global-pass-default-rtdb.firebaseio.com" };
+    firebase.initializeApp(firebaseConfig);
+    const passRef = firebase.database().ref('password');
 
-    // সেভ
     function savePassword() {
-      const newPass = document.getElementById('newPass').value.trim();
-      if (!newPass) return alert("পাসওয়ার্ড দিন!");
-
-      localStorage.setItem("emote_password", newPass);
-      document.getElementById('status').innerHTML = `
-        <span style="color:#4caf50;">সফল! নতুন পাসওয়ার্ড: "${newPass}"</span><br>
-        এই ব্রাউজারে এখন "${newPass}" দিয়ে লগইন করুন।
-      `;
-      document.getElementById('newPass').value = '';
-      document.getElementById('currentPass').textContent = newPass;
+      const pass = document.getElementById('newPass').value.trim();
+      if (!pass) return alert("পাসওয়ার্ড দিন!");
+      passRef.set(pass).then(() => {
+        document.getElementById('status').textContent = `সফল! সব ডিভাইসে "${pass}" লাগবে।`;
+        document.getElementById('newPass').value = '';
+      });
     }
   </script>
 </body>
