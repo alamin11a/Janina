@@ -35,6 +35,26 @@ document.getElementById('passInput').addEventListener('keypress', e => {
 
 // ইমোট লিস্ট
 const emotes = [
+  {"id":909049010,"name":"(evo p90)"},
+  {"id":909051003,"name":"(evo m60) new"},
+  {"id":909033002,"name":"(evo mp5)"},
+  {"id":909041005,"name":"(evo groza)"},
+  {"id":909038010,"name":"(thompson evo)"},
+  {"id":909039011,"name":"(evo M10 red)"},
+  {"id":909040010,"name":"(evo mp40 blue)"},
+  {"id":909000081,"name":"(evo m10 green)"},
+  {"id":909000085,"name":"(evo xm8)"},
+  {"id":909000063,"name":"(evo ak)"},
+  {"id":909000075,"name":"(evo mp40)"},
+  {"id":909033001,"name":"(evo m4A1)"},
+  {"id":909000090,"name":"(evo famas)"},
+  {"id":909000068,"name":"(evo scar)"},
+  {"id":909000098,"name":"(evo ump)"},
+  {"id":909035007,"name":"(evo m18)"},
+  {"id":909037011,"name":"(evo fist)"},
+  {"id":909038012,"name":"(evo g18)"},
+  {"id":909035012,"name":"(evo AN94)"},
+  {"id":909042008,"name":"(evo Woodpecker)"},
   {"id":909051014,"name":"puffy ride"},
   {"id":909050009,"name":"(circle)"},
   {"id":909051013,"name":"petals"},
@@ -69,27 +89,8 @@ const emotes = [
   {"id":909049017,"name":"(guild flag)"},
   {"id":909040004,"name":"(fish)"},
   {"id":909041003,"name":"(inosuke)"},
-  {"id":909041012,"name":"(br grandmaster)"},
-  {"id":909049010,"name":"(evo p90)"},
-  {"id":909051003,"name":"(evo m60) new"},
-  {"id":909033002,"name":"(evo mp5)"},
-  {"id":909041005,"name":"(evo groza)"},
-  {"id":909038010,"name":"(thompson evo)"},
-  {"id":909039011,"name":"(evo M10 red)"},
-  {"id":909040010,"name":"(evo mp40 blue)"},
-  {"id":909000081,"name":"(evo m10 green)"},
-  {"id":909000085,"name":"(evo xm8)"},
-  {"id":909000063,"name":"(evo ak)"},
-  {"id":909000075,"name":"(evo mp40)"},
-  {"id":909033001,"name":"(evo m4A1)"},
-  {"id":909000090,"name":"(evo famas)"},
-  {"id":909000068,"name":"(evo scar)"},
-  {"id":909000098,"name":"(evo ump)"},
-  {"id":909035007,"name":"(evo m18)"},
-  {"id":909037011,"name":"(evo fist)"},
-  {"id":909038012,"name":"(evo g18)"},
-  {"id":909035012,"name":"(evo AN94)"},
-  {"id":909042008,"name":"(evo Woodpecker)"}
+  {"id":909041012,"name":"(br grandmaster)"}
+  
 ];
 
 // PNG URL
