@@ -1,65 +1,64 @@
-const IMAGE_BASE = "https://emote-psi.vercel.app/emotes";
-const grid = document.getElementById('grid');
-const total = document.getElementById('total');
-const notif = document.getElementById('notif');
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+    color: #fff;
+    padding: 20px;
+    min-height: 100vh;
+}
+header { text-align:center; margin-bottom:20px; }
+h1 { font-size:2.5em; text-shadow:0 2px 10px rgba(0,0,0,0.5); }
+p { color:#a0f7ff; font-size:1.1em; }
 
-let emotes = [];
+.config {
+    display:flex; gap:10px; justify-content:center; flex-wrap:wrap;
+    margin:20px auto; max-width:600px;
+}
+.config input {
+    padding:10px; border-radius:8px; border:none;
+    background:rgba(255,255,255,0.1); color:white;
+    width:120px; text-align:center; font-size:1em;
+}
+.config input::placeholder { color:#ccc; }
 
-// ইনপুট ফিল্ড (শুধু দেখানোর জন্য)
-const teamCodeInput = document.getElementById('teamCode');
-const uid1 = document.getElementById('uid1');
-const uid2 = document.getElementById('uid2');
-const uid3 = document.getElementById('uid3');
-
-// ইমেজ URL (সরাসরি PNG)
-function getImageUrl(emoteId) {
-    return `${IMAGE_BASE}/${emoteId}.png?t=${Date.now()}`; // ক্যাশ এড়ানো
+#grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(140px,1fr));
+    gap:15px;
+    max-width:1200px;
+    margin:0 auto;
+}
+.item {
+    background:rgba(255,255,255,0.12);
+    border-radius:12px;
+    padding:15px 10px;
+    text-align:center;
+    cursor:pointer;
+    transition:0.3s;
+    border:1px solid rgba(255,255,255,0.2);
+    backdrop-filter:blur(8px);
+}
+.item:hover {
+    transform:translateY(-5px);
+    background:rgba(255,255,255,0.22);
+    box-shadow:0 10px 20px rgba(0,0,0,0.3);
+}
+.item .id {
+    font-size:0.9em;
+    font-weight:bold;
+    color:#4fc3f7;
+}
+.item .name {
+    font-size:0.75em;
+    color:#ccc;
+    margin-top:4px;
 }
 
-// গ্রিড তৈরি
-function refreshGrid() {
-    grid.innerHTML = '';
-    emotes.forEach(emote => {
-        const div = document.createElement('div');
-        div.className = 'item';
-
-        div.innerHTML = `
-            <img src="${getImageUrl(emote.id)}" alt="${emote.id}"
-                 style="opacity:0; transition:opacity 0.4s ease;"
-                 onload="this.style.opacity=1;"
-                 onerror="this.src='https://via.placeholder.com/80/666/fff?text=?'">
-            <p>${emote.id}<br><small>${emote.name}</small></p>
-        `;
-
-        // ক্লিক = রিফ্রেশ (কাঁপা ছাড়া)
-        div.onclick = () => {
-            const img = div.querySelector('img');
-            img.style.opacity = '0';
-            setTimeout(() => {
-                img.src = getImageUrl(emote.id);
-            }, 400);
-            showNotif(`সেন্ড করা হয়েছে: ${emote.id}`);
-        };
-
-        grid.appendChild(div);
-    });
+#notif {
+    position:fixed;
+    bottom:20px; right:20px;
+    background:#4caf50; color:white;
+    padding:12px 24px; border-radius:50px;
+    font-weight:bold; opacity:0;
+    transition:0.4s; box-shadow:0 4px 15px rgba(0,0,0,0.3);
 }
-
-// নোটিফিকেশন
-function showNotif(msg) {
-    notif.textContent = msg;
-    notif.style.opacity = '1';
-    setTimeout(() => notif.style.opacity = '0', 1800);
-}
-
-// লোড emotes.json
-fetch('emotes.json')
-    .then(res => res.json())
-    .then(data => {
-        emotes = data;
-        total.textContent = emotes.length;
-        refreshGrid();
-    })
-    .catch(err => {
-        grid.innerHTML = `<p style="text-align:center;color:#ff6b6b;">লোড করা যায়নি: ${err.message}</p>`;
-    });
