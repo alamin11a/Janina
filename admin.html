@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="admin-container">
+        <h1>অ্যাডমিন প্যানেল</h1>
+        <p>এখানে পাসওয়ার্ড + কাস্টমাইজ চেঞ্জ করুন। সেভ করলে GitHub-এ এডিট করুন।</p>
+
+        <div class="admin-section">
+            <h2>পাসওয়ার্ড চেঞ্জ</h2>
+            <input type="password" id="newPass" placeholder="নতুন পাসওয়ার্ড">
+            <button onclick="changePassword()">সেভ করুন</button>
+        </div>
+
+        <div class="admin-section">
+            <h2>কাস্টমাইজ</h2>
+            <label>টাইটেল:</label>
+            <input type="text" id="customTitle" placeholder="XLAHR Emote Bot">
+            <label>ডেসক্রিপশন:</label>
+            <textarea id="customDesc" rows="3" placeholder="টিম কোড ও UID দিন..."></textarea>
+            <label>ডিফল্ট টিম কোড:</label>
+            <input type="text" id="defaultTeamCode" placeholder="demo">
+            <label>ডিফল্ট UID1:</label>
+            <input type="text" id="defaultUid1" placeholder="1">
+            <label>ডিফল্ট UID2:</label>
+            <input type="text" id="defaultUid2" placeholder="2">
+            <label>ডিফল্ট UID3:</label>
+            <input type="text" id="defaultUid3" placeholder="3">
+            <button onclick="saveCustom()">আপডেট করুন</button>
+        </div>
+
+        <div id="status" style="color: #4caf50; margin-top: 10px;"></div>
+    </div>
+
+    <script>
+        // data.json লোড
+        fetch('data.json')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('customTitle').value = data.title;
+                document.getElementById('customDesc').value = data.description;
+                document.getElementById('defaultTeamCode').value = data.teamCode;
+                document.getElementById('defaultUid1').value = data.uid1;
+                document.getElementById('defaultUid2').value = data.uid2;
+                document.getElementById('defaultUid3').value = data.uid3;
+            });
+
+        function changePassword() {
+            const newPass = document.getElementById('newPass').value;
+            if (!newPass) return alert('পাসওয়ার্ড দিন!');
+            alert(`নতুন পাসওয়ার্ড: ${newPass}\n\nGitHub-এ data.json এডিট করে "password": "${newPass}" যোগ করুন।`);
+        }
+
+        function saveCustom() {
+            const title = document.getElementById('customTitle').value;
+            const desc = document.getElementById('customDesc').value;
+            const teamCode = document.getElementById('defaultTeamCode').value;
+            const uid1 = document.getElementById('defaultUid1').value;
+            const uid2 = document.getElementById('defaultUid2').value;
+            const uid3 = document.getElementById('defaultUid3').value;
+
+            const newData = {
+                "password": "1234", // এটা আলাদা চেঞ্জ করুন
+                "title": title,
+                "description": desc,
+                "teamCode": teamCode,
+                "uid1": uid1,
+                "uid2": uid2,
+                "uid3": uid3
+            };
+
+            alert(`কপি করুন এই JSON:\n\n${JSON.stringify(newData, null, 2)}\n\nGitHub-এ data.json এডিট করে পেস্ট করুন।`);
+            document.getElementById('status').textContent = 'কপি হয়েছে! GitHub-এ সেভ করুন।';
+        }
+    </script>
+</body>
+</html>
