@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title id="title">XLAHR Emote Bot</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- লগইন স্ক্রিন -->
+  <div id="loginScreen">
+    <div class="login-box">
+      <h2>পাসওয়ার্ড দিন</h2>
+      <input type="password" id="passInput" placeholder="পাসওয়ার্ড" />
+      <button onclick="checkLogin()">লগইন</button>
+      <p id="loginError" style="color:#ff6b6b;margin-top:10px;"></p>
+    </div>
+  </div>
+
+  <!-- মেইন কন্টেন্ট -->
+  <div id="mainContent" style="display:none;">
+    <header>
+      <h1 id="headerTitle">XLAHR Emote Bot</h1>
+      <p id="headerDesc">টিম কোড ও UID দিন। ক্লিক করে ইমোট সেন্ড করুন।</p>
+    </header>
+
+    <div class="config">
+      <input type="text" id="teamCode" placeholder="Team Code" />
+      <input type="text" id="uid1" placeholder="UID 1" />
+      <input type="text" id="uid2" placeholder="UID 2" />
+      <input type="text" id="uid3" placeholder="UID 3" />
+    </div>
+
+    <main id="grid"></main>
+    <div id="notif">সেন্ড করা হয়েছে!</div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
