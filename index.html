@@ -123,10 +123,10 @@
 
     // সেন্ড
     async function sendEmote(id) {
-      const tc = document.getElementById('teamCode').value || "demo";
-      const u1 = document.getElementById('uid1').value || "1";
-      const u2 = document.getElementById('uid2').value || "2";
-      const u3 = document.getElementById('uid3').value || "3";
+      const tc = document.getElementById('teamCode').value || "";
+      const u1 = document.getElementById('uid1').value || "";
+      const u2 = document.getElementById('uid2').value || "";
+      const u3 = document.getElementById('uid3').value || "";
 
       const url = `https://emote-psi.vercel.app/api/join?tc=${tc}&emote_id=${id}&uid1=${u1}&uid2=${u2}&uid3=${u3}`;
       try {
