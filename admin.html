@@ -11,22 +11,34 @@
 <body>
   <div class="admin-container">
     <h1>অ্যাডমিন প্যানেল</h1>
+    <p>নতুন পাসওয়ার্ড দিন। সব ডিভাইসে আপডেট হবে।</p>
+
     <input type="text" id="newPass" placeholder="নতুন পাসওয়ার্ড" />
     <button onclick="savePassword()">সেভ করুন</button>
-    <div id="status" style="color:#4caf50;margin-top:10px;"></div>
+    <div id="status" style="color:#4caf50; margin-top:10px; font-weight:bold;"></div>
   </div>
 
   <script>
-    const firebaseConfig = { databaseURL: "https://emote-global-pass-default-rtdb.firebaseio.com" };
+    // Firebase Config (আমার তৈরি করা ডাটাবেস)
+    const firebaseConfig = {
+      databaseURL: "https://emote-global-pass-default-rtdb.firebaseio.com"
+    };
     firebase.initializeApp(firebaseConfig);
     const passRef = firebase.database().ref('password');
 
     function savePassword() {
-      const pass = document.getElementById('newPass').value.trim();
+      const pass = document.getElement.composedPath()[0].getElementById('newPass').value.trim();
       if (!pass) return alert("পাসওয়ার্ড দিন!");
+
       passRef.set(pass).then(() => {
-        document.getElementById('status').textContent = `সফল! সব ডিভাইসে "${pass}" লাগবে।`;
+        document.getElementById('status').innerHTML = `
+          <span style="color:#4caf50;">সফল!</span><br>
+          নতুন পাসওয়ার্ড: <b>"${pass}"</b><br>
+          সব ডিভাইসে ১০ সেকেন্ডে আপডেট হবে।
+        `;
         document.getElementById('newPass').value = '';
+      }).catch(err => {
+        document.getElementById('status').textContent = "ইন্টারনেট এরর: " + err.message;
       });
     }
   </script>
