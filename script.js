@@ -1,8 +1,9 @@
 const API_BASE = "https://emote-psi.vercel.app/api/join";
+const PNG_BASE = "https://cdn.jsdelivr.net/gh/ShahGCreator/icon@main/PNG";
 const grid = document.getElementById('grid');
 const notif = document.getElementById('notif');
 
-// Emote লিস্ট (ফাইল ছাড়া, হার্ডকোড)
+// Emote লিস্ট (হার্ডকোড)
 const emotes = [
   {"id":909051014,"name":"puffy ride"},
   {"id":909050009,"name":"(circle)"},
@@ -67,6 +68,11 @@ const uid1 = document.getElementById('uid1');
 const uid2 = document.getElementById('uid2');
 const uid3 = document.getElementById('uid3');
 
+// PNG URL
+function getPngUrl(emoteId) {
+    return `${PNG_BASE}/${emoteId}.png`;
+}
+
 // API-তে সেন্ড
 async function sendEmote(emoteId) {
     const tc = teamCodeInput.value.trim() || "demo";
@@ -81,14 +87,14 @@ async function sendEmote(emoteId) {
         if (response.ok) {
             showNotif(`সেন্ড সফল: ${emoteId}`);
         } else {
-            showNotif(`ফেল (${response.status}): ${emoteId}`);
+            showNotif(`ফেল (${response.status})`);
         }
     } catch (err) {
-        showNotif(`এরর: ${emoteId}`);
+        showNotif(`ইন্টারনেট এরর`);
     }
 }
 
-// গ্রিড তৈরি
+// গ্রিড তৈরি (ইমেজ + টেক্সট)
 function refreshGrid() {
     grid.innerHTML = '';
     emotes.forEach(emote => {
@@ -96,6 +102,10 @@ function refreshGrid() {
         div.className = 'item';
 
         div.innerHTML = `
+            <img src="${getPngUrl(emote.id)}" alt="${emote.id}"
+                 style="opacity:0; transition:opacity 0.4s ease; width:60px; height:60px; object-fit:contain;"
+                 onload="this.style.opacity=1;"
+                 onerror="this.src='https://via.placeholder.com/60/666/fff?text=?'">
             <div class="id">${emote.id}</div>
             <div class="name">${emote.name}</div>
         `;
@@ -116,5 +126,5 @@ function showNotif(msg) {
     setTimeout(() => notif.style.opacity = '0', 2000);
 }
 
-// শুরুতে গ্রিড লোড
+// শুরু
 refreshGrid();
