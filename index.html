@@ -36,8 +36,8 @@
   </div>
 
   <script>
-    // পাসওয়ার্ড হার্ডকোড (কোনো ফাইল লাগবে না)
-    const PASSWORD = "1234";
+    // নতুন (এটা রাখুন)
+const PASSWORD = localStorage.getItem("emote_password") || "1234";
 
     // লগইন ফাংশন
     function checkLogin() {
