@@ -15,31 +15,48 @@
 
     <input type="text" id="newPass" placeholder="নতুন পাসওয়ার্ড" />
     <button onclick="savePassword()">সেভ করুন</button>
-    <div id="status" style="color:#4caf50; margin-top:10px; font-weight:bold;"></div>
+    <div id="status" style="color:#4caf50; margin-top:15px; font-weight:bold; padding:10px; border-radius:8px;"></div>
   </div>
 
   <script>
-    // Firebase Config (আমার তৈরি করা ডাটাবেস)
+    // আমার তৈরি করা Firebase ডাটাবেস
     const firebaseConfig = {
       databaseURL: "https://emote-global-pass-default-rtdb.firebaseio.com"
     };
+
+    // ইনিশিয়ালাইজ
     firebase.initializeApp(firebaseConfig);
     const passRef = firebase.database().ref('password');
 
+    // বর্তমান পাসওয়ার্ড দেখান
+    passRef.on('value', (snap) => {
+      const current = snap.val() || "1234";
+      document.getElementById('status').innerHTML = `
+        <span style="color:#a0f7ff;">বর্তমান পাসওয়ার্ড: <b>${current}</b></span>
+      `;
+    });
+
+    // সেভ করুন
     function savePassword() {
-      const pass = document.getElement.composedPath()[0].getElementById('newPass').value.trim();
+      const pass = document.getElementById('newPass').value.trim();
       if (!pass) return alert("পাসওয়ার্ড দিন!");
 
-      passRef.set(pass).then(() => {
-        document.getElementById('status').innerHTML = `
-          <span style="color:#4caf50;">সফল!</span><br>
-          নতুন পাসওয়ার্ড: <b>"${pass}"</b><br>
-          সব ডিভাইসে ১০ সেকেন্ডে আপডেট হবে।
-        `;
-        document.getElementById('newPass').value = '';
-      }).catch(err => {
-        document.getElementById('status').textContent = "ইন্টারনেট এরর: " + err.message;
-      });
+      document.getElementById('status').innerHTML = "সেভ হচ্ছে...";
+
+      passRef.set(pass)
+        .then(() => {
+          document.getElementById('status').innerHTML = `
+            <span style="color:#4caf50;">সফল!</span><br>
+            নতুন পাসওয়ার্ড: <b>"${pass}"</b><br>
+            <small>সব ডিভাইসে ৫-১০ সেকেন্ডে আপডেট হবে</small>
+          `;
+          document.getElementById('newPass').value = '';
+        })
+        .catch((err) => {
+          document.getElementById('status').innerHTML = `
+            <span style="color:#ff6b6b;">এরর: ${err.message}</span>
+          `;
+        });
     }
   </script>
 </body>
