@@ -24,6 +24,7 @@
       <p>টিম কোড ও UID দিন। ক্লিক করে ইমোট সেন্ড করুন।</p>
     </header>
 
+    <!-- এই অংশ চেঞ্জ করা হয়েছে -->
     <div class="config">
       <input type="text" id="teamCode" placeholder="Team Code" value="">
       <input type="text" id="uid1" placeholder="UID 1" value="">
@@ -36,10 +37,9 @@
   </div>
 
   <script>
-    // পাসওয়ার্ড হার্ডকোড (কোনো ফাইল লাগবে না)
+    // পাসওয়ার্ড হার্ডকোড
     const PASSWORD = "alamintest";
 
-    // লগইন ফাংশন
     function checkLogin() {
       const input = document.getElementById('passInput').value;
       if (input === PASSWORD) {
@@ -52,12 +52,10 @@
       }
     }
 
-    // Enter কী
     document.getElementById('passInput').addEventListener('keypress', (e) => {
       if (e.key === 'Enter') checkLogin();
     });
 
-    // ইমোট লিস্ট
     const emotes = [
       {"id":909051014,"name":"puffy ride"},
       {"id":909050009,"name":"(circle)"},
@@ -116,17 +114,15 @@
       {"id":909042008,"name":"(evo Woodpecker)"}
     ];
 
-    // PNG URL
     function getPngUrl(id) {
       return `https://cdn.jsdelivr.net/gh/ShahGCreator/icon@main/PNG/${id}.png`;
     }
 
-    // সেন্ড
     async function sendEmote(id) {
-      const tc = document.getElementById('teamCode');
-      const u1 = document.getElementById('uid1');
-      const u2 = document.getElementById('uid2');
-      const u3 = document.getElementById('uid3');
+      const tc = document.getElementById('teamCode').value || "";
+      const u1 = document.getElementById('uid1').value || "";
+      const u2 = document.getElementById('uid2').value || "";
+      const u3 = document.getElementById('uid3').value || "";
 
       const url = `https://emote-psi.vercel.app/api/join?tc=${tc}&emote_id=${id}&uid1=${u1}&uid2=${u2}&uid3=${u3}`;
       try {
@@ -137,7 +133,6 @@
       }
     }
 
-    // গ্রিড লোড
     function loadEmotes() {
       const grid = document.getElementById('grid');
       grid.innerHTML = '';
@@ -157,7 +152,6 @@
       });
     }
 
-    // নোটিফ
     function showNotif(msg) {
       const notif = document.getElementById('notif');
       notif.textContent = msg;
