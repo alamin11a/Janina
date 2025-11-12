@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Panel</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="admin-container">
     <h1>অ্যাডমিন প্যানেল</h1>
-    <p>নতুন পাসওয়ার্ড দিন। এটা আপনার ব্রাউজারে সেভ হবে।</p>
+    <p>নতুন পাসওয়ার্ড দিন। এটা এই ব্রাউজারে সেভ হবে।</p>
 
     <div class="admin-section">
-      <h2>পাসওয়ার্ড চেঞ্জ</h2>
+      <h2>বর্তমান পাসওয়ার্ড: <span id="currentPass">1234</span></h2>
       <input type="text" id="newPass" placeholder="নতুন পাসওয়ার্ড" />
       <button onclick="savePassword()">সেভ করুন</button>
     </div>
@@ -21,28 +21,23 @@
   </div>
 
   <script>
-    // বর্তমান পাসওয়ার্ড (localStorage থেকে)
+    // বর্তমান পাসওয়ার্ড লোড
     let currentPass = localStorage.getItem("emote_password") || "1234";
+    document.getElementById('currentPass').textContent = currentPass;
 
-    // সেভ করুন
+    // সেভ
     function savePassword() {
       const newPass = document.getElementById('newPass').value.trim();
       if (!newPass) return alert("পাসওয়ার্ড দিন!");
 
-      // ব্রাউজারে সেভ
       localStorage.setItem("emote_password", newPass);
-
-      document.getElementById('status').textContent = 
-        `পাসওয়ার্ড সফলভাবে চেঞ্জ হয়েছে: "${newPass}"\nএই ব্রাউজারে এখন এই পাসওয়ার্ড কাজ করবে।`;
-
+      document.getElementById('status').innerHTML = `
+        <span style="color:#4caf50;">সফল! নতুন পাসওয়ার্ড: "${newPass}"</span><br>
+        এই ব্রাউজারে এখন "${newPass}" দিয়ে লগইন করুন।
+      `;
       document.getElementById('newPass').value = '';
+      document.getElementById('currentPass').textContent = newPass;
     }
-
-    // লোডে দেখান
-    window.onload = () => {
-      document.getElementById('status').textContent = 
-        `বর্তমান পাসওয়ার্ড: "${currentPass}"`;
-    };
   </script>
 </body>
 </html>
