@@ -1,72 +1,59 @@
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
-    color: #fff;
-    padding: 20px;
-    min-height: 100vh;
-}
-header { text-align: center; margin-bottom: 20px; }
-h1 { font-size: 2.5em; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-
-.config {
-    display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
-    margin-bottom: 20px; max-width: 600px; margin-left: auto; margin-right: auto;
-}
-.config input {
-    padding: 10px; border-radius: 8px; border: none; font-size: 1em;
-    background: rgba(255,255,255,0.1); color: white; backdrop-filter: blur(10px);
-    width: 120px; text-align: center;
-}
-.config input::placeholder { color: #ccc; }
-
-.total { text-align: center; font-size: 1.1em; margin-bottom: 15px; color: #a0f7ff; }
-
-#grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-    gap: 15px; max-width: 1200px; margin: 0 auto;
-}
-.item {
-    background: rgba(255,255,255,0.1); border-radius: 12px; padding: 10px;
-    text-align: center; cursor: pointer; transition: 0.3s; border: 1px solid rgba(255,255,255,0.2);
-    backdrop-filter: blur(8px);
-}
-.item:hover { 
-    transform: translateY(-5px); 
-    background: rgba(255,255,255,0.2); 
-    box-shadow: 0 10px 20px rgba(0,0,0,0.3); 
-}
-.item img { 
-    width: 80px; height: 80px; 
-    border-radius: 8px; 
-    background: #333; 
-    object-fit: contain; 
-}
-.item p { 
-    margin-top: 8px; 
-    font-size: 0.8em; 
-    font-weight: bold; 
-    color: #a0f7ff; 
-}
-.item small { 
-    display: block; 
-    font-size: 0.7em; 
-    color: #ccc; 
-    margin-top: 2px; 
+/* আগের স্টাইল + নতুন */
+.login-box, .admin-container {
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 30px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 15px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
 }
 
-#notif {
-    position: fixed; bottom: 20px; right: 20px; 
-    background: #4caf50; color: white;
-    padding: 12px 24px; border-radius: 50px; font-weight: bold; opacity: 0;
-    transition: 0.4s; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+.login-box input, .admin-section input, .admin-section textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: none;
+    background: rgba(255,255,255,0.1);
+    color: white;
+}
+
+.login-box button, .admin-section button {
+    width: 100%;
+    padding: 12px;
+    background: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.admin-section {
+    margin: 20px 0;
+    text-align: left;
+}
+
+.admin-section label {
+    display: block;
+    margin: 10px 0 5px;
+    color: #a0f7ff;
+}
+
+.admin-section textarea {
+    resize: vertical;
 }
 
 .item img {
     width: 60px;
     height: 60px;
     object-fit: contain;
-    margin-bottom: 8px;
+    margin: 0 auto 8px;
+    display: block;
     border-radius: 8px;
     background: #333;
 }
+
+/* বাকি আগের স্টাইল */
