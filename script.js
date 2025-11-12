@@ -11,17 +11,29 @@ const uid1 = document.getElementById('uid1');
 const uid2 = document.getElementById('uid2');
 const uid3 = document.getElementById('uid3');
 
-// ইমেজ URL জেনারেট (ক্যাশ এড়ানোর জন্য)
+// ক্যাশে ছাড়া URL (শুধু প্রয়োজন হলে)
+let lastParams = {};
+
+// URL জেনারেট
 function getImageUrl(emoteId) {
     const tc = teamCodeInput.value.trim() || "demo";
     const u1 = uid1.value.trim() || "1";
     const u2 = uid2.value.trim() || "2";
     const u3 = uid3.value.trim() || "3";
-    return `${API_BASE}?tc=${tc}&emote_id=${emoteId}&uid1=${u1}&uid2=${u2}&uid3=${u3}&t=${Date.now()}`;
+
+    const params = { tc, emote_id: emoteId, uid1: u1, uid2: u2, uid3: u3 };
+    
+    // শুধু প্যারামিটার চেঞ্জ হলে নতুন URL
+    const key = JSON.stringify(params);
+    if (!lastParams[key]) {
+        lastParams[key] = `${API_BASE}?${new URLSearchParams(params).toString()}&t=${Date.now()}`;
+    }
+    return lastParams[key];
 }
 
 // গ্রিড রিফ্রেশ
 function refreshGrid() {
+    lastParams = {}; // ক্যাশ ক্লিয়ার
     grid.innerHTML = '';
     emotes.forEach(emote => {
         const div = document.createElement('div');
@@ -29,14 +41,19 @@ function refreshGrid() {
 
         div.innerHTML = `
             <img src="${getImageUrl(emote.id)}" alt="${emote.id}" 
+                 style="opacity:0; transition:opacity 0.3s;"
+                 onload="this.style.opacity=1;"
                  onerror="this.src='https://via.placeholder.com/80/666/fff?text=?'">
             <p>${emote.id}<br><small>${emote.name}</small></p>
         `;
 
-        // ক্লিক = সেন্ড + রিফ্রেশ
+        // ক্লিক = শুধু রিফ্রেশ (কোনো ফ্লিকার ছাড়া)
         div.onclick = () => {
             const img = div.querySelector('img');
-            img.src = getImageUrl(emote.id); // নতুন করে লোড
+            img.style.opacity = '0';
+            setTimeout(() => {
+                img.src = getImageUrl(emote.id);
+            }, 300);
             showNotif(`সেন্ড করা হয়েছে: ${emote.id}`);
         };
 
@@ -65,5 +82,7 @@ fetch('emotes.json')
 
 // ইনপুট চেঞ্জ হলে রিফ্রেশ
 [teamCodeInput, uid1, uid2, uid3].forEach(input => {
-    input.addEventListener('input', refreshGrid);
+    input.addEventListener('input', () => {
+        setTimeout(refreshGrid, 500); // ডিবাউন্স
+    });
 });
